@@ -4,10 +4,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * The Main class prints the path of three.
+ */
 public class Main {
 
-  // initializes explored vertex
-  private static HashMap<String, Boolean> exploreFalse(LinkedHashMap<String, List<Node>> adjacencyList) {
+  /**
+   * Initializes a HashMap of all the nodes (keys) in the tree set to false (values).
+   * @param adjacencyList tree of nodes
+   * @return HashMap with all values set to false.
+   */
+  private static HashMap<String, Boolean> exploreFalse(LinkedHashMap<String,
+          List<Node>> adjacencyList) {
     HashMap<String, Boolean>  explored = new HashMap<>();
 
     for (String key : adjacencyList.keySet()) {
@@ -15,7 +23,6 @@ public class Main {
     }
     return explored;
   }
-
 
   /**
    * Builds a tree (adjacency list) from nodes.
@@ -81,9 +88,11 @@ public class Main {
   }
 
   /**
-   * Runs DFS on ajacency list
+   * Runs DFS on adjacency list to determine path of three that leads to "Find Me".
+   * @param tree tree of nodes
+   * @return the path of thre tree that lead to node "Find Me"
    */
-  public static List<String> dfs(LinkedHashMap<String, List<Node>> tree) {
+  private static List<String> dfs(LinkedHashMap<String, List<Node>> tree) {
 
     HashMap<String, Boolean> explore = exploreFalse(tree);
     HashMap<String, Boolean> finished = exploreFalse(tree);
@@ -99,7 +108,7 @@ public class Main {
       while (!stack.empty()) {
         // Take a node u from S
         String node = stack.pop();
-        // If Explored[u] = false then
+        // If Finished = false then
         if (!finished.get(node)) {
           // add node to path
           path.add(node);
@@ -135,24 +144,30 @@ public class Main {
     return null;
   }
 
-
   /**
-   * Builds the tree and runs DFS to find node.
+   * Prints out path of Nodes.
+   * @param path path of nodes that leads "Find Me"
+   */
+  private static void printPath(List<String> path) {
+    for (int i = 0; i < path.size(); i++) {
+      System.out.println(path.get(i));
+    }
+  }
+  
+  /**
+   * Builds the tree, runs DFS to find "Find Me", prints results.
    * @param arguments none
    */
   public static void main(String[] arguments) {
 
-    // builds tree (adjacency list)
+    // builds tree of nodes in adjacency list form
     LinkedHashMap<String, List<Node>> tree = buildTree();
 
     // runs DFS on the tree to determine location of 'Find Me'
     List<String> path = dfs(tree);
 
     // print out path
-    for (int i = 0; i < path.size(); i++) {
-      System.out.println(path.get(i));
-    }
-
+    printPath(path);
 
 
   }
